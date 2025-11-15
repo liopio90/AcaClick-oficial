@@ -1,0 +1,17 @@
+
+services:
+  db_usuarios:
+    image: postgres:16
+    container_name: acaclick_db_usuarios
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: acaclick_usuarios
+      POSTGRES_USER: acaclick_user
+      POSTGRES_PASSWORD: acaclick_password
+    ports:
+      - "5433:5432"   # puerto host 5433 → contenedor 5432
+    volumes:
+      - db_usuarios_data:/var/lib/postgresql/data
+
+volumes:
+  db_usuarios_data:
