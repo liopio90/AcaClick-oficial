@@ -8,8 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL; // http://127.0.0.1:8001/api
 export default function AuthPage({ initialView = "login" }) {
   const navigate = useNavigate();
 
-  // qué panel se muestra
-  const [mode, setMode] = useState(initialView); // "login" | "register"
+  const [mode, setMode] = useState(initialView); // "login" | "registro"
 
   /* ---------- Estado LOGIN ---------- */
   const [loginCorreo, setLoginCorreo] = useState("");

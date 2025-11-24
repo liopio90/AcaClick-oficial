@@ -1,10 +1,16 @@
+# ms_usuarios/ms_usuarios/usuarios/views.py
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model
 
+
+
 from .serializers import UsuarioRegisterSerializer, UsuarioReadSerializer
+
+from .kafka_producer import send_usuario_creado_event
 
 Usuario = get_user_model()
 
@@ -15,7 +21,14 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = UsuarioRegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
+        # Guardamos el usuario
         user = serializer.save()
+
+        # 🔹 Enviar evento a Kafka con el usuario recién creado
+        send_usuario_creado_event(user)
+
+        # Devolvemos la representación de lectura
         read_serializer = UsuarioReadSerializer(user)
         return Response(read_serializer.data, status=status.HTTP_201_CREATED)
 

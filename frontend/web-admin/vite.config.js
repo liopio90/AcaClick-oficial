@@ -10,4 +10,7 @@ export default defineConfig({
       },
     }),
   ],
+  server: {
+    allowedHosts: ['.ngrok-free.app'] // Permite todos los subdominios de ngrok
+  }
 })
